@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing Wasm With a Rust Palindrome Checker</title>
+</head>
+<body>
+    <h1>Testing Wasm With a Rust Palindrome Checker</h1>
+    <input id="text_input" type="text" oninput="window.isPalindrome()">
+    <label id="text_input_label" for="text_input"></label>
+    <script type="module">
+        import init, {is_palindrome} from "../is_palindrome/is_palindrome_wasm/pkg/is_palindrome_wasm.js"
+
+        // init the js library (why do I have to do this js I freeking imported it smh)
+        init()
+
+        function isPalindrome() {
+            let textInput = document.getElementById("text_input")
+            let textInputLabel = document.getElementById("text_input_label")
+
+            if (textInput.value.length === 0) {
+                textInputLabel.textContent = "input text here to see if it is a palindrome or not"
+            } else if (is_palindrome(textInput.value)) {
+                textInputLabel.textContent = "this IS a palindrome"
+            } else {
+                textInputLabel.textContent = "this IS NOT a palindrome"
+            }
+        }
+
+        // expose the function to the dom to use it
+        window.isPalindrome = isPalindrome;
+    </script>
+</body>
+</html>
